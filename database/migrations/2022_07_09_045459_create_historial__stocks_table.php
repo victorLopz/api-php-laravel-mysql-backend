@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('Historial_Stocks', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('tipo_almacen_id');
+            $table->foreign('tipo_almacen_id')->references('id')->on('Tipos_Almacenes');
+            $table->unsignedInteger('almacen_id');
+            $table->foreign('almacen_id')->references('id')->on('Almacen');
+            $table->integer('cantidades');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('Historial_Stocks');
+    }
+};
