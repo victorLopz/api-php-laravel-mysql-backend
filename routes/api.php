@@ -53,6 +53,8 @@ Route::post('/factura/detalle', $factura.'@guardarDetalleFactura');
 Route::get('/factura', $factura.'@historialFactura');
 Route::get('/factura/{facturaId}', $factura.'@verDetallesFacturas');
 
+Route::get('/baucher/factura', $factura.'@tickets');
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

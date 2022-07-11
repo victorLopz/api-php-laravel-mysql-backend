@@ -82,15 +82,16 @@ class FacturasController extends Controller
             ->join('Usuarios', 'Usuarios.id', '=', 'Facturas.user_id')->get();
 
         return response()->json([
-            $historial
+            "historial" => $historial
         ]);
     }
 
-    public function verDetallesFacturas($facturaId){
-        $detalle = Detalles_Facturas::select("Almacen.nombre_articulo", "Almacen.codigo1","Detalles_Facturas.unidades", "Detalles_Facturas.precio_venta", "Detalles_Facturas.costo_total")
-        ->join("Almacen", "Almacen.id", "=", "Detalles_Facturas.almacen_id")
-        ->where("Detalles_Facturas.factura_id", "=", $facturaId)
-        ->get();
+    public function verDetallesFacturas($facturaId)
+    {
+        $detalle = Detalles_Facturas::select("Almacen.nombre_articulo", "Almacen.codigo1", "Detalles_Facturas.unidades", "Detalles_Facturas.precio_venta", "Detalles_Facturas.costo_total")
+            ->join("Almacen", "Almacen.id", "=", "Detalles_Facturas.almacen_id")
+            ->where("Detalles_Facturas.factura_id", "=", $facturaId)
+            ->get();
 
         return response()->json([
             $detalle
@@ -103,9 +104,22 @@ class FacturasController extends Controller
      * @param  \App\Models\Facturas  $facturas
      * @return \Illuminate\Http\Response
      */
-    public function show(Facturas $facturas)
+    public function tickets(Request $request)
     {
         //
+        $ultimoId = Facturas::max("id");
+
+        $data = Facturas::select("Facturas.*")
+            ->where("id", $ultimoId)
+            ->join('Detalles_Facturas', 'Detalles_Facturas.facturas_id', '=', 'Facturas.id')
+            ->join('Almacen_Uno', 'Almacen_Uno', '=', 'Detalles_Facturas.almacen_id')
+            ->join('Almacen', 'Almacen.id', '=', 'Detalles_Facturas.almacen_id')
+            ->join('Usuarios', 'Usuarios.id', '=', 'Facturas.user_id');
+
+        return response()->json([
+            "success" => true,
+            "data" => $data
+        ]);
     }
 
     /**
