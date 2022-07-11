@@ -44,10 +44,7 @@ class UsuariosController extends Controller
             "email" => ['required'],
             "ruc" => ['required'],
             "direccion" => ['required'],
-            "password" => ['required'],
         ]);
-
-        $passwordHash = bcrypt($request->password);
 
         $email = Usuarios::where('email', '=', $request->email)->first();
 
@@ -64,7 +61,6 @@ class UsuariosController extends Controller
         $usuario->ruc = $request->ruc;
         $usuario->direccion = $request->direccion;
         $usuario->is_visible = true;
-        $usuario->password = $passwordHash;
         $usuario->save();
 
         return response()->json([

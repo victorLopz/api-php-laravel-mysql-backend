@@ -67,9 +67,16 @@ class AlmacenUnoController extends Controller
      * @param  \App\Models\Almacen_Uno  $almacen_Uno
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Almacen_Uno $almacen_Uno)
+    public function addStock(Request $request, Almacen_Uno $almacen_Uno)
     {
         //
+        $product = Almacen_Uno::where('id', '=', $request->id)->first();
+        $product->stock = $request->stock + $product->stock;
+        $product->save();
+
+        return response()->json([
+            "success" => true,
+        ]);
     }
 
     /**

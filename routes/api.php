@@ -24,10 +24,20 @@ Route::patch('/almacen/{id}', $routeAlmacen.'@update');
 Route::get('/almacen/{id}', $routeAlmacen.'@show' );
 
 // Usuarios
-$routeAlmacen = 'App\Http\Controllers\UsuariosController';
-Route::post('/usuarios', $routeAlmacen.'@store');
-Route::patch('/usuarios', $routeAlmacen.'@edit');
-Route::patch('/usuarios/{id}', $routeAlmacen.'@update');
+$routerUser = 'App\Http\Controllers\UsuariosController';
+Route::post('/usuarios', $routerUser.'@store');
+Route::patch('/usuarios', $routerUser.'@edit');
+Route::patch('/usuarios/{id}', $routerUser.'@update');
+
+// Almacen uno
+$routeAlmacenUno = 'App\Http\Controllers\AlmacenUnoController';
+Route::post('/almacen-uno/stock', $routeAlmacenUno.'@addStock');
+
+// Index tienda
+$indexTienda = 'App\Http\Controllers\indexController';
+Route::get('/almacen-uno/index', $indexTienda.'@tienda');
+Route::get('/admin/index', $indexTienda.'@admin');
+
 
 
 

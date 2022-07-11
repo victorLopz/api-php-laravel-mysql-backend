@@ -143,7 +143,6 @@ class AlmacenController extends Controller
             "precio_ruta_uno" => ['required'],
             "precio_ruta_dos" => ['required'],
             "stock" => ['required'],
-            "is_visible" => ['required'],
             "notas",
 
         ]);
@@ -166,7 +165,6 @@ class AlmacenController extends Controller
         $producto->precio_compra = $request->precio_compra;
         $producto->precio_ruta_uno = $request->precio_ruta_uno;
         $producto->precio_ruta_dos = $request->precio_ruta_dos;
-        $producto->is_visible = $request->is_visible;
         $producto->notas = $request->notas;
         $producto->save();
 
@@ -174,8 +172,26 @@ class AlmacenController extends Controller
         $almacenUno->stock = $request->stock;
         $almacenUno->save();
 
+        $producto = Almacen::select(
+            "Almacen.id",
+            "Almacen.codigo1",
+            "Almacen.codigo2",
+            "Almacen.nombre_articulo",
+            "Almacen.modelo",
+            "Almacen.marca",
+            "Almacen.precio_venta",
+            "Almacen.precio_compra",
+            "Almacen.precio_ruta_uno",
+            "Almacen.precio_ruta_dos",
+            "Almacen.notas",
+            "Almacen_Uno.Stock"
+        )->where('Almacen.id', '=', $request->id)
+        ->leftJoin('Almacen_Uno', 'Almacen_Uno.almacen_id', '=', 'Almacen.id')
+        ->first();
+
         return response()->json([
-            "msg" => "Producto Actualizado correctamente"
+            "msg" => "Producto Actualizado correctamente",
+            "product" => $producto
         ]);
     }
 
