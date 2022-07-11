@@ -15,7 +15,21 @@ class AlmacenController extends Controller
      */
     public function index()
     {
-        $almacen = Almacen::select()->where('is_visible', 1)->get();
+        $almacen = Almacen::select(
+            "Almacen.id",
+            "Almacen.codigo1",
+            "Almacen.codigo2",
+            "Almacen.nombre_articulo",
+            "Almacen.modelo",
+            "Almacen.marca",
+            "Almacen.precio_venta",
+            "Almacen.precio_compra",
+            "Almacen.precio_ruta_uno",
+            "Almacen.precio_ruta_dos",
+            "Almacen.notas",
+            "Almacen_Uno.Stock"
+        )->leftJoin('Almacen_Uno', 'Almacen_Uno.almacen_id', '=', 'Almacen.id')
+        ->where('Almacen.is_visible', 1)->get();
 
         return response()->json([
             'Products' => $almacen
@@ -42,7 +56,6 @@ class AlmacenController extends Controller
     {
         //
         $request->validate([
-
             "codigo1" => ['required'],
             "codigo2",
             "nombre_articulo" => ['required'],
@@ -55,7 +68,6 @@ class AlmacenController extends Controller
             "stock" => ['required'],
             "is_visible" => ['required'],
             "notas",
-
         ]);
 
         $validateCodigo1 = Almacen::where('codigo1', '=', $request->codigo1)->first();
@@ -87,12 +99,26 @@ class AlmacenController extends Controller
     public function show($id)
     {
         //
-        $producto = Almacen::where('id', '=', $id)->first();
+        $producto = Almacen::select(
+            "Almacen.id",
+            "Almacen.codigo1",
+            "Almacen.codigo2",
+            "Almacen.nombre_articulo",
+            "Almacen.modelo",
+            "Almacen.marca",
+            "Almacen.precio_venta",
+            "Almacen.precio_compra",
+            "Almacen.precio_ruta_uno",
+            "Almacen.precio_ruta_dos",
+            "Almacen.notas",
+            "Almacen_Uno.Stock"
+        )->where('Almacen.id', '=', $id)
+        ->leftJoin('Almacen_Uno', 'Almacen_Uno.almacen_id', '=', 'Almacen.id')
+        ->first();
 
         return response()->json([
-            "producto" => $producto
+            "product" => $producto
         ]);
-
     }
 
     /**
@@ -169,7 +195,6 @@ class AlmacenController extends Controller
             $msg = ["msg" => "El producto no existe"];
             return response($msg, 404);
         }
-
 
         /* Updating the product to be invisible. */
         $producto = Almacen::where('id', '=', $id)->first();

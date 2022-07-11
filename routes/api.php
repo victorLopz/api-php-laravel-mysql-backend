@@ -23,6 +23,12 @@ Route::put('/almacen', $routeAlmacen.'@edit' );
 Route::patch('/almacen/{id}', $routeAlmacen.'@update');
 Route::get('/almacen/{id}', $routeAlmacen.'@show' );
 
+// Usuarios
+$routeAlmacen = 'App\Http\Controllers\UsuariosController';
+Route::post('/usuarios', $routeAlmacen.'@store');
+Route::patch('/usuarios', $routeAlmacen.'@edit');
+Route::patch('/usuarios/{id}', $routeAlmacen.'@update');
+
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
