@@ -21,6 +21,7 @@ class Facturas extends Model
         "tipo_almacen_id",
         "user_id",
         "tipo_factura",
-        "is_visible"
+        "is_visible",
+        "costo_total"
     ];
 }

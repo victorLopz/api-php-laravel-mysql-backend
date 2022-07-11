@@ -7,6 +7,7 @@ use App\Models\Almacen;
 use Illuminate\Http\Request;
 use App\Models\Detalles_Facturas;
 use App\Models\Tipo_Facturas;
+use Illuminate\Support\Facades\DB;
 
 class FacturasController extends Controller
 {
@@ -109,12 +110,30 @@ class FacturasController extends Controller
         //
         $ultimoId = Facturas::max("id");
 
-        $data = Facturas::select("Facturas.*")
-            ->where("id", $ultimoId)
-            ->join('Detalles_Facturas', 'Detalles_Facturas.facturas_id', '=', 'Facturas.id')
-            ->join('Almacen_Uno', 'Almacen_Uno', '=', 'Detalles_Facturas.almacen_id')
-            ->join('Almacen', 'Almacen.id', '=', 'Detalles_Facturas.almacen_id')
-            ->join('Usuarios', 'Usuarios.id', '=', 'Facturas.user_id');
+        $data = DB::select(DB::raw(
+            "
+            SELECT fac.id, 
+            fac.total, 
+            fac.monto_pagado, 
+            al.codigo1,
+            fac.cambio, 
+            det.unidades, 
+            al.nombre_articulo, 
+            det.costo_total,
+            det.precio_compra,
+            al.precio_venta,
+            al.modelo,
+            fac.created_at,
+            fac.tipo_factura,
+            cata.nombres as cliente,
+            cata.ruc as codigoRUCcedula
+        FROM Facturas as fac 
+        INNER JOIN Detalles_Facturas as det ON det.factura_id = fac.id
+        INNER JOIN Almacen as al ON al.id = det.almacen_id
+        INNER JOIN Usuarios as cata ON cata.id = fac.user_id
+        WHERE fac.id = '$ultimoId'
+        "
+        ));
 
         return response()->json([
             "success" => true,
