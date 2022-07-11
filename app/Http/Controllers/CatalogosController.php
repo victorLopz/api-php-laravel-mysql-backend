@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Almacen;
+use App\Models\Tipo_Almacenes;
 
 class CatalogosController extends Controller
 {
@@ -34,4 +35,11 @@ class CatalogosController extends Controller
         ]);
     }
 
+    public function verDescuento(){
+        $descuento = Tipo_Almacenes::where("nivel", 2)->first();
+
+        return response()->json([
+            $descuento
+        ]);
+    }
 }

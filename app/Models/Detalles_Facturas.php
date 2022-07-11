@@ -9,6 +9,8 @@ class Detalles_Facturas extends Model
 {
     use HasFactory;
 
+    protected $table = 'Detalles_Facturas';
+
     protected $fillable = [
         "unidades",
         "precio_compra",

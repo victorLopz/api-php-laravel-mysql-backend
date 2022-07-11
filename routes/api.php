@@ -42,8 +42,15 @@ Route::put('/admin/descuento/desactivar/{tipoAlmacenId}/almacen', $indexTienda.'
 Route::put('/admin/descuento/activar/{tipoAlmacenId}/almacen', $indexTienda.'@descuentoActivar');
 
 // Facturas
-$factura = 'App\Http\Controllers\CatalogosController';
-Route::get('/factura/productos', $factura.'@productos');
+$catalogo = 'App\Http\Controllers\CatalogosController';
+// Catalogo de producto...
+Route::get('/factura/productos', $catalogo.'@productos');
+// Revisar si tiene le descuento
+Route::get('/factura/descuento', $catalogo.'@verDescuento');
+
+$factura = 'App\Http\Controllers\FacturasController';
+Route::post('/factura', $factura.'@create');
+Route::post('/factura/detalle', $factura.'@guardarDetalleFactura');
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
