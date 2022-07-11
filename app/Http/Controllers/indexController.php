@@ -12,26 +12,6 @@ use Illuminate\Http\Request;
 
 class IndexController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function tienda()
-    {
-        //
-        $almacen = Detalles_Facturas::select("Almacen.nombre_articulo, Detalles_Facturas.almacen_id")
-            ->innerJoin('Almacen', 'Almacen.id', '=', 'Detalles_Facturas.almacen_id')
-            ->innerJoin('Facturas', 'Facturas.id', '=', 'Detalles_Facturas.factura_id')
-            ->groupBy('date')
-            ->orderBy('Detalles_Facturas.almacen_id', 'DESC')
-            ->first();
-
-        return response()->json([
-            $almacen
-        ]);
-    }
-
     public function admin()
     {
 
@@ -79,6 +59,24 @@ class IndexController extends Controller
                 WHERE al.is_visible = 1 AND aluno.stock > 0"
         ));
 
+        $topVentas = DB::select(DB::raw(
+            "SELECT
+                al.nombre_articulo,
+                deta.almacen_id,
+                COUNT(deta.almacen_id) AS total
+            FROM
+                Detalles_Facturas as deta
+            INNER JOIN Facturas as f on
+                f.id = deta.factura_id
+            INNER JOIN Almacen as al ON
+                al.id = deta.almacen_id
+            GROUP BY
+                deta.almacen_id
+            ORDER BY
+                total DESC
+            LIMIT 1"
+        ));
+
         return response()->json([
             "usuarios" => 2,
             "cantidadProductos" => $stockQuantity,
@@ -89,7 +87,8 @@ class IndexController extends Controller
             "ganancias" => $datos[0]->ganancias,
             "almacenUnoDescuentoId" => $tienda->id,
             "almacenUnoDescuentoBoolean" => $tienda->descuento,
-            "inversion" => $inversion[0]->inversion
+            "inversion" => $inversion[0]->inversion,
+            "topVentas" =>  $topVentas[0]->nombre_articulo
         ]);
     }
 
