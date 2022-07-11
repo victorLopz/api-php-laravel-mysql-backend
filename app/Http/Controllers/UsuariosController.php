@@ -16,6 +16,11 @@ class UsuariosController extends Controller
     public function index()
     {
         //
+        $user = Usuarios::where('is_visible', 1)->get();
+
+        return response()->json([
+            "usuarios" => $user
+        ]);
     }
 
     /**

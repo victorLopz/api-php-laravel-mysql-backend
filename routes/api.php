@@ -26,6 +26,7 @@ Route::get('/almacen/{id}', $routeAlmacen.'@show' );
 // Usuarios
 $routerUser = 'App\Http\Controllers\UsuariosController';
 Route::post('/usuarios', $routerUser.'@store');
+Route::get('/usuarios', $routerUser.'@index');
 Route::patch('/usuarios', $routerUser.'@edit');
 Route::patch('/usuarios/{id}', $routerUser.'@update');
 

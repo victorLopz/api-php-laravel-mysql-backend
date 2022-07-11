@@ -9,6 +9,8 @@ class Facturas extends Model
 {
     use HasFactory;
 
+    protected $table = 'Facturas';
+
     protected $fillable = [
         "iva",
         "sub_total",
@@ -19,5 +21,6 @@ class Facturas extends Model
         "tipo_almacen_id",
         "user_id",
         "tipo_factura",
+        "is_visible"
     ];
 }

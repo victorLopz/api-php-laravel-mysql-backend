@@ -22,6 +22,7 @@ return new class extends Migration
             $table->float('monto_pagado');
             $table->float('cambio');
             $table->float('suma_abonos');
+            $table->boolean('is_visible');
 
             $table->unsignedInteger('tipo_almacen_id');
             $table->foreign('tipo_almacen_id')->references('id')->on('Tipos_Almacenes');
