@@ -38,6 +38,8 @@ Route::post('/almacen-uno/stock', $routeAlmacenUno.'@addStock');
 $indexTienda = 'App\Http\Controllers\indexController';
 Route::get('/almacen-uno/index', $indexTienda.'@tienda');
 Route::get('/admin/index', $indexTienda.'@admin');
+Route::put('/admin/descuento/desactivar/{tipoAlmacenId}/almacen', $indexTienda.'@descuentoDesactivar');
+Route::put('/admin/descuento/activar/{tipoAlmacenId}/almacen', $indexTienda.'@descuentoActivar');
 
 
 

@@ -69,7 +69,9 @@ class IndexController extends Controller
             ['created_at', '=', $fecha]
         ])->count('id');
 
-        $tienda
+        $tienda = Tipo_Almacenes::where([
+            ['nivel', '=', '2']
+        ])->first();
 
         return response()->json([
             "usuarios" => 2,
@@ -79,11 +81,28 @@ class IndexController extends Controller
             "venta" => $datos[0]->venta,
             "compra" => $datos[0]->compra,
             "ganancias" => $datos[0]->ganancias,
-            "almacen" => 
+            "almacen-uno-descuento-id" => $tienda->id,
+            "almacen-uno-descuento-boolean" => $tienda->descuento
         ]);
     }
 
     public function descuentoDesactivar($tipoAlmacenId){
+        $tienda = Tipo_Almacenes::where('id', $tipoAlmacenId)->first();
+        $tienda->descuento = false;
+        $tienda->save();
 
+        return response()->json([
+            "success" => true
+        ]);
+    }
+
+    public function descuentoActivar($tipoAlmacenId){
+        $tienda = Tipo_Almacenes::where('id', $tipoAlmacenId)->first();
+        $tienda->descuento = true;
+        $tienda->save();
+
+        return response()->json([
+            "success" => true
+        ]);
     }
 }
