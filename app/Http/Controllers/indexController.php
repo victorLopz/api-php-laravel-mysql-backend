@@ -81,14 +81,14 @@ class IndexController extends Controller
 
         return response()->json([
             "usuarios" => 2,
-            "cantidad-productos" => $stockQuantity,
-            "dinero-caja" => $dineroCaja,
-            "ventas-dia" => $ventasDia,
+            "cantidadProductos" => $stockQuantity,
+            "dineroCaja" => $dineroCaja,
+            "ventasDia" => $ventasDia,
             "venta" => $datos[0]->venta,
             "compra" => $datos[0]->compra,
             "ganancias" => $datos[0]->ganancias,
-            "almacen-uno-descuento-id" => $tienda->id,
-            "almacen-uno-descuento-boolean" => $tienda->descuento,
+            "almacenUnoDescuento-id" => $tienda->id,
+            "almacenUnoDescuentoBoolean" => $tienda->descuento,
             "inversion" => $inversion[0]->inversion
         ]);
     }

@@ -41,7 +41,9 @@ Route::get('/admin/index', $indexTienda.'@admin');
 Route::put('/admin/descuento/desactivar/{tipoAlmacenId}/almacen', $indexTienda.'@descuentoDesactivar');
 Route::put('/admin/descuento/activar/{tipoAlmacenId}/almacen', $indexTienda.'@descuentoActivar');
 
-
+// Facturas
+$factura = 'App\Http\Controllers\CatalogosController';
+Route::get('/factura/productos', $factura.'@productos');
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
