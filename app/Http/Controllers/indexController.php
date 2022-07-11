@@ -87,7 +87,7 @@ class IndexController extends Controller
             "venta" => $datos[0]->venta,
             "compra" => $datos[0]->compra,
             "ganancias" => $datos[0]->ganancias,
-            "almacenUnoDescuento-id" => $tienda->id,
+            "almacenUnoDescuentoId" => $tienda->id,
             "almacenUnoDescuentoBoolean" => $tienda->descuento,
             "inversion" => $inversion[0]->inversion
         ]);
