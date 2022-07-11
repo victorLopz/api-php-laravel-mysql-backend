@@ -16,6 +16,7 @@ class Detalles_Facturas extends Model
         "precio_compra",
         "precio_venta",
         "factura_id",
-        "almacen_id"
+        "almacen_id",
+        "costo_total"
     ];
 }

@@ -51,7 +51,8 @@ Route::get('/factura/descuento', $catalogo.'@verDescuento');
 $factura = 'App\Http\Controllers\FacturasController';
 Route::post('/factura', $factura.'@create');
 Route::post('/factura/detalle', $factura.'@guardarDetalleFactura');
-
+Route::get('/factura', $factura.'@historialFactura');
+Route::get('/factura/{facturaId}', $factura.'@verDetallesFacturas');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

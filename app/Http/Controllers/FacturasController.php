@@ -6,6 +6,7 @@ use App\Models\Facturas;
 use App\Models\Almacen;
 use Illuminate\Http\Request;
 use App\Models\Detalles_Facturas;
+use App\Models\Tipo_Facturas;
 
 class FacturasController extends Controller
 {
@@ -65,12 +66,35 @@ class FacturasController extends Controller
         $producto = Almacen::where("id", $request->almacen_id)->first();
         $detalleFactura->precio_compra = $producto->precio_compra;
         $detalleFactura->precio_venta = $producto->precio_venta;
+        $detalleFactura->costo_total = $request->unidades * $request->precio_venta;
         $detalleFactura->save();
 
         return response()->json([
             $detalleFactura
         ]);
+    }
 
+    public function historialFactura(Request $request)
+    {
+        //
+        $historial = Facturas::select("Facturas.id", "Usuarios.nombres", "Usuarios.ruc", "Facturas.created_at", "Facturas.total", "Facturas.monto_pagado", "Tipo_Facturas.nombres as tipo")
+            ->join('Tipo_Facturas', 'Tipo_Facturas.id', '=', 'Facturas.tipo_factura')
+            ->join('Usuarios', 'Usuarios.id', '=', 'Facturas.user_id')->get();
+
+        return response()->json([
+            $historial
+        ]);
+    }
+
+    public function verDetallesFacturas($facturaId){
+        $detalle = Detalles_Facturas::select("Almacen.nombre_articulo", "Almacen.codigo1","Detalles_Facturas.unidades", "Detalles_Facturas.precio_venta", "Detalles_Facturas.costo_total")
+        ->join("Almacen", "Almacen.id", "=", "Detalles_Facturas.almacen_id")
+        ->where("Detalles_Facturas.factura_id", "=", $facturaId)
+        ->get();
+
+        return response()->json([
+            $detalle
+        ]);
     }
 
     /**
