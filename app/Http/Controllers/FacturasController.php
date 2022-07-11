@@ -67,11 +67,12 @@ class FacturasController extends Controller
         $producto = Almacen::where("id", $request->almacen_id)->first();
         $detalleFactura->precio_compra = $producto->precio_compra;
         $detalleFactura->precio_venta = $producto->precio_venta;
-        $detalleFactura->costo_total = $request->unidades * $request->precio_venta;
+        $multi = intval($request->unidades) * intval($producto->precio_venta);
+        $detalleFactura->costo_total = $multi;
         $detalleFactura->save();
 
         return response()->json([
-            $detalleFactura
+            $detalleFactura,
         ]);
     }
 
