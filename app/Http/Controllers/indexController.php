@@ -73,6 +73,12 @@ class IndexController extends Controller
             ['nivel', '=', '2']
         ])->first();
 
+        $inversion = DB::select(DB::raw(
+            "SELECT sum(al.precio_compra * aluno.stock) as inversion 
+                FROM Almacen as al INNER JOIN Almacen_Uno as aluno ON al.id = aluno.almacen_id 
+                WHERE al.is_visible = 1 AND aluno.stock > 0"
+        ));
+
         return response()->json([
             "usuarios" => 2,
             "cantidad-productos" => $stockQuantity,
@@ -82,7 +88,8 @@ class IndexController extends Controller
             "compra" => $datos[0]->compra,
             "ganancias" => $datos[0]->ganancias,
             "almacen-uno-descuento-id" => $tienda->id,
-            "almacen-uno-descuento-boolean" => $tienda->descuento
+            "almacen-uno-descuento-boolean" => $tienda->descuento,
+            "inversion" => $inversion[0]->inversion
         ]);
     }
 
