@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Detalles_Facturas;
 use App\Models\Historial_Abono;
 use App\Models\Vista_Deudas;
 use Illuminate\Http\Request;
@@ -34,9 +35,23 @@ class HistorialAbonoController extends Controller
         $historialAbono = Historial_Abono::where("factura_id", $facturaId)->get();
 
         return response()->json([
-            "hisotialAbonos" => $historialAbono
+            "historialAbonos" => $historialAbono
         ]);
     }
+
+    public function descripcion(Request $request, $facturaId)
+    {
+        //
+
+        $historialDescripcion = Detalles_Facturas::select("Detalles_Facturas.unidades", "Almacen.*")->where("factura_id", $facturaId)
+        ->join("Almacen", "Almacen.id", "=","Detalles_Facturas.almacen_id")
+        ->get();
+
+        return response()->json([
+            "historialAbonos" => $historialDescripcion
+        ]);
+    }
+
 
 
     /**
