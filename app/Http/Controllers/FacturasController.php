@@ -7,6 +7,7 @@ use App\Models\Almacen;
 use Illuminate\Http\Request;
 use App\Models\Detalles_Facturas;
 use App\Models\Tipo_Facturas;
+use App\Models\Historial_Abono;
 use Illuminate\Support\Facades\DB;
 
 class FacturasController extends Controller
@@ -44,6 +45,16 @@ class FacturasController extends Controller
         $facturas->tipo_factura = $request->tipo_factura;
         $facturas->is_visible = true;
         $facturas->save();
+
+        if ($request->tipo_factura == 2) {
+
+            $historialAbono = new Historial_Abono();
+            $historialAbono->factura_id = $facturas->id;
+            $historialAbono->metodo_pago = "-";
+            $historialAbono->concepto = "-";
+            $historialAbono->monto_abonado = 0;
+            $historialAbono->save();
+        }
 
         return response()->json([
             "success" => true,

@@ -9,6 +9,8 @@ class Historial_Abono extends Model
 {
     use HasFactory;
 
+    protected $table = 'Historial_Abonos';
+
     protected $fillable = [
         "factura_id",
         "metodo_pago",

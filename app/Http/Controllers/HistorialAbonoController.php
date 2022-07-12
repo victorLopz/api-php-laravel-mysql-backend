@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Historial_Abono;
+use App\Models\Vista_Deudas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HistorialAbonoController extends Controller
 {
@@ -16,6 +18,26 @@ class HistorialAbonoController extends Controller
     {
         //
     }
+
+    public function vistaDedudas()
+    {
+        //
+        return response()->json([
+            "deudas" => Vista_Deudas::get()
+        ]);
+    }
+
+    public function verAbonos(Request $request, $facturaId)
+    {
+        //
+
+        $historialAbono = Historial_Abono::where("factura_id", $facturaId)->get();
+
+        return response()->json([
+            "hisotialAbonos" => $historialAbono
+        ]);
+    }
+
 
     /**
      * Show the form for creating a new resource.
