@@ -58,6 +58,16 @@ class HistorialAbonoController extends Controller
     public function store(Request $request)
     {
         //
+        $historialAbono = new Historial_Abono();
+        $historialAbono->factura_id = $request->facturaId;
+        $historialAbono->metodo_pago = $request->metodoPago;
+        $historialAbono->concepto = $request->concepto;
+        $historialAbono->monto_abonado = $request->montoAbonado;
+        $historialAbono->save();
+
+        return response()->json([
+            "abonoInsertado" => $historialAbono
+        ]);
     }
 
     /**

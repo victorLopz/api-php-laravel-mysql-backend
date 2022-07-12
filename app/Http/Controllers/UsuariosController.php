@@ -46,17 +46,10 @@ class UsuariosController extends Controller
             "nombres" => ['required'],
             "apellidos",
             "telefono",
-            "email" => ['required'],
+            "email",
             "ruc" => ['required'],
             "direccion" => ['required'],
         ]);
-
-        $email = Usuarios::where('email', '=', $request->email)->first();
-
-        if ($email !== null) {
-            $msg = ["msg" => "El usuario ya existe"];
-            return response($msg, 404);
-        }
 
         $usuario = new Usuarios;
         $usuario->nombres = $request->nombres;
