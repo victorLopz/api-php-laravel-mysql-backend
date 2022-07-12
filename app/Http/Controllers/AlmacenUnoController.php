@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Almacen_Uno;
 use Illuminate\Http\Request;
+use App\Models\Historial_Stock;
 
 class AlmacenUnoController extends Controller
 {
@@ -73,6 +74,12 @@ class AlmacenUnoController extends Controller
         $product = Almacen_Uno::where('id', '=', $request->id)->first();
         $product->stock = $request->stock + $product->stock;
         $product->save();
+
+        $HistorialStock = new Historial_Stock();
+        $HistorialStock->tipo_almacen_id = 1;
+        $HistorialStock->almacen_id = $request->id;
+        $HistorialStock->cantidades = $request->stock;
+        $HistorialStock->save();
 
         return response()->json([
             "success" => true,
