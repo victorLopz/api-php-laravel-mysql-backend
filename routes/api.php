@@ -60,6 +60,7 @@ $abonos = 'App\Http\Controllers\HistorialAbonoController';
 Route::get('/abonos', $abonos.'@vistaDedudas');
 Route::get('/abonos/{facturaId}', $abonos.'@verAbonos');
 Route::post('/abonos', $abonos.'@store');
+Route::get('/abonos/{facturaId}/descripcion', $abonos.'@store');
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

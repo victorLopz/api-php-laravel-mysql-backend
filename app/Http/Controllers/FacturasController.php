@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Facturas;
 use App\Models\Almacen;
+use App\Models\Almacen_Uno;
 use Illuminate\Http\Request;
 use App\Models\Detalles_Facturas;
 use App\Models\Tipo_Facturas;
@@ -81,6 +82,10 @@ class FacturasController extends Controller
         $multi = intval($request->unidades) * intval($producto->precio_venta);
         $detalleFactura->costo_total = $multi;
         $detalleFactura->save();
+
+        $producto = Almacen_Uno::where("almacen_id", $request->almacen_id)->first();
+        $producto->stock = $producto->stock - $request->unidades;
+        $producto->save();
 
         return response()->json([
             $detalleFactura,
