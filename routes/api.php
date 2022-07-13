@@ -69,6 +69,9 @@ Route::get('/baucher-abono', $abonos.'@bacuherAbono');
 $login = 'App\Http\Controllers\UserLoginController';
 Route::post('/login', $login.'@store');
 
+// Reports
+$report = 'App\Http\Controllers\reportController';
+Route::get('/reportes/{tipoFactura}', $report.'@report');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

@@ -7,6 +7,7 @@ use App\Models\Detalles_Facturas;
 use App\Models\Creditos_Cancelados;
 use App\Models\Historial_Abono;
 use App\Models\Vista_Deudas;
+use App\Models\Facturas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -97,6 +98,11 @@ class HistorialAbonoController extends Controller
         $historialAbono->concepto = $request->concepto;
         $historialAbono->monto_abonado = $request->montoAbonado;
         $historialAbono->save();
+
+        $facturas = Facturas::where("id", $request->facturaId)->first();
+        $facturas->suma_abono = $facturas->suma_abono + $request->montoAbonado;
+        $facturas->save();
+
 
         return response()->json([
             "abonoInsertado" => $historialAbono
