@@ -97,7 +97,7 @@ class FacturasController extends Controller
         //
         $historial = Facturas::select("Facturas.id", "Usuarios.nombres", "Usuarios.ruc", "Facturas.created_at", "Facturas.total", "Facturas.monto_pagado", "Tipo_Facturas.nombres as tipo")
             ->join('Tipo_Facturas', 'Tipo_Facturas.id', '=', 'Facturas.tipo_factura')
-            ->join('Usuarios', 'Usuarios.id', '=', 'Facturas.user_id')->get();
+            ->join('Usuarios', 'Usuarios.id', '=', 'Facturas.user_id')->orderBy('Facturas.id', 'DESC')->get();
 
         return response()->json([
             "historial" => $historial
