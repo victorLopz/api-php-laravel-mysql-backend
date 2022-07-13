@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Baucher_Abono;
 use App\Models\Detalles_Facturas;
 use App\Models\Creditos_Cancelados;
 use App\Models\Historial_Abono;
@@ -37,6 +38,13 @@ class HistorialAbonoController extends Controller
         ]);
     }
 
+    public function bacuherAbono()
+    {
+        //
+        return response()->json([
+            "baucherAbono" => Baucher_Abono::first()
+        ]);
+    }
 
     public function verAbonos(Request $request, $facturaId)
     {

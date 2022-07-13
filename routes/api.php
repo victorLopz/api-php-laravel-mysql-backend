@@ -63,6 +63,7 @@ Route::get('/abonos', $abonos.'@vistaDedudas');
 Route::get('/abonos/{facturaId}', $abonos.'@verAbonos');
 Route::post('/abonos', $abonos.'@store');
 Route::get('/abonos/{facturaId}/descripcion', $abonos.'@descripcion');
+Route::get('/baucher-abono', $abonos.'@bacuherAbono');
 
 $login = 'App\Http\Controllers\UserLoginController';
 Route::post('/login', $login.'@store');
