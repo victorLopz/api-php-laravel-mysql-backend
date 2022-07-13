@@ -16,5 +16,6 @@ class User_login extends Model
         "user_password",
         "shop",
         "is_visible",
+        "tipo_almacen_id"
     ];
 }

@@ -19,6 +19,10 @@ return new class extends Migration
             $table->string('user_password');
             $table->boolean('shop');
             $table->boolean('is_visible');
+
+            $table->unsignedInteger('tipo_almacen_id');
+            $table->foreign('tipo_almacen_id')->references('id')->on('Tipos_Almacenes');
+
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tipo_Almacenes;
 use App\Models\User_login;
 use Illuminate\Http\Request;
 
@@ -49,8 +50,11 @@ class UserLoginController extends Controller
             return response($msg, 404);
         }
 
+        $nivel = Tipo_Almacenes::where("nivel", $login->tipo_almacen_id)->first();
+
         return response()->json([
-            "success" => true
+            "success" => true,
+            $nivel
         ]);
     }
 
