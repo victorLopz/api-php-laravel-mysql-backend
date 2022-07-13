@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Almacen;
 use App\Models\Almacen_Uno;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AlmacenController extends Controller
 {
@@ -29,7 +30,7 @@ class AlmacenController extends Controller
             "Almacen.notas",
             "Almacen_Uno.Stock"
         )->leftJoin('Almacen_Uno', 'Almacen_Uno.almacen_id', '=', 'Almacen.id')
-        ->where('Almacen.is_visible', 1)->get();
+            ->where('Almacen.is_visible', 1)->get();
 
         return response()->json([
             'Products' => $almacen
@@ -113,8 +114,8 @@ class AlmacenController extends Controller
             "Almacen.notas",
             "Almacen_Uno.Stock"
         )->where('Almacen.id', '=', $id)
-        ->leftJoin('Almacen_Uno', 'Almacen_Uno.almacen_id', '=', 'Almacen.id')
-        ->first();
+            ->leftJoin('Almacen_Uno', 'Almacen_Uno.almacen_id', '=', 'Almacen.id')
+            ->first();
 
         return response()->json([
             "product" => $producto
@@ -186,8 +187,8 @@ class AlmacenController extends Controller
             "Almacen.notas",
             "Almacen_Uno.Stock"
         )->where('Almacen.id', '=', $request->id)
-        ->leftJoin('Almacen_Uno', 'Almacen_Uno.almacen_id', '=', 'Almacen.id')
-        ->first();
+            ->leftJoin('Almacen_Uno', 'Almacen_Uno.almacen_id', '=', 'Almacen.id')
+            ->first();
 
         return response()->json([
             "msg" => "Producto Actualizado correctamente",
@@ -219,6 +220,35 @@ class AlmacenController extends Controller
 
         return response()->json([
             "msg" => "Producto eliminado correctamente"
+        ]);
+    }
+
+    public function getInversion()
+    {
+        $productos = Almacen::select(
+            "Almacen.id",
+            "Almacen.precio_compra",
+            "Almacen.nombre_articulo",
+            "Almacen_Uno.stock",
+            DB::raw('(Almacen.precio_compra * Almacen_Uno.stock) AS inversion')
+        )
+            ->join("Almacen_Uno", "Almacen_Uno.almacen_id", "=", "Almacen.id")
+            ->where([
+                ["Almacen.is_visible", "=", "1"],
+                ["Almacen_Uno.stock", ">", 0]
+            ])
+            ->orderBy("Almacen.id", "ASC")
+            ->get();
+
+        $resultados = Almacen::join("Almacen_Uno", "Almacen_Uno.almacen_id", "=", "Almacen.id")
+            ->where([
+                ["Almacen.is_visible", "=", "1"],
+                ["Almacen_Uno.stock", ">", 0]
+            ])->sum(DB::raw("Almacen_Uno.stock * Almacen.precio_compra"));
+
+        return response()->json([
+            "productos" => $productos,
+            "resultados" => $resultados
         ]);
     }
 

@@ -24,19 +24,17 @@ class IndexController extends Controller
         $stockQuantity = Almacen_Uno::select("stock")->where('is_visible', 1)->count();
 
         $datos = DB::select(DB::raw(
-            "
-        SELECT
+            "SELECT
             sum(al.precio_venta * (aluno.stock)) as venta,
             sum(al.precio_compra  * (aluno.stock)) as compra,
             (sum(al.precio_venta * (aluno.stock)) - sum(al.precio_compra  * (aluno.stock))) as ganancias
-        from
+        FROM
             Almacen as al
         INNER JOIN Almacen_Uno as aluno ON
             aluno.almacen_id = al.id
         WHERE
             al.is_visible = 1
-            AND aluno.stock > 0
-        "
+            AND aluno.stock > 0"
         ));
 
         $dineroCaja = Facturas::where([
@@ -92,7 +90,8 @@ class IndexController extends Controller
         ]);
     }
 
-    public function descuentoDesactivar($tipoAlmacenId){
+    public function descuentoDesactivar($tipoAlmacenId)
+    {
         $tienda = Tipo_Almacenes::where('id', $tipoAlmacenId)->first();
         $tienda->descuento = false;
         $tienda->save();
@@ -102,7 +101,8 @@ class IndexController extends Controller
         ]);
     }
 
-    public function descuentoActivar($tipoAlmacenId){
+    public function descuentoActivar($tipoAlmacenId)
+    {
         $tienda = Tipo_Almacenes::where('id', $tipoAlmacenId)->first();
         $tienda->descuento = true;
         $tienda->save();

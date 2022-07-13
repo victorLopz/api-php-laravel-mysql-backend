@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 // Almacen -> Productos
 $routeAlmacen = 'App\Http\Controllers\AlmacenController';
 Route::get('/almacen', $routeAlmacen.'@index');
+Route::get('/almacen/inversion', $routeAlmacen.'@getInversion');
 Route::post('/almacen', $routeAlmacen.'@store');
 Route::put('/almacen', $routeAlmacen.'@edit' );
 Route::patch('/almacen/{id}', $routeAlmacen.'@update');
