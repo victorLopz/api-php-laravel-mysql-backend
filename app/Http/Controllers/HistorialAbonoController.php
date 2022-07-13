@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Detalles_Facturas;
+use App\Models\Creditos_Cancelados;
 use App\Models\Historial_Abono;
 use App\Models\Vista_Deudas;
 use Illuminate\Http\Request;
@@ -28,6 +29,15 @@ class HistorialAbonoController extends Controller
         ]);
     }
 
+    public function vistaDedudasCanceladas()
+    {
+        //
+        return response()->json([
+            "creditos" => Creditos_Cancelados::get()
+        ]);
+    }
+
+
     public function verAbonos(Request $request, $facturaId)
     {
         //
@@ -44,8 +54,8 @@ class HistorialAbonoController extends Controller
         //
 
         $historialDescripcion = Detalles_Facturas::select("Detalles_Facturas.unidades", "Almacen.*")->where("factura_id", $facturaId)
-        ->join("Almacen", "Almacen.id", "=","Detalles_Facturas.almacen_id")
-        ->get();
+            ->join("Almacen", "Almacen.id", "=", "Detalles_Facturas.almacen_id")
+            ->get();
 
         return response()->json([
             "historialAbonos" => $historialDescripcion

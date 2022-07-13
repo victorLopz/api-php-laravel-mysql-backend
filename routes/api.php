@@ -57,11 +57,11 @@ Route::get('/baucher/factura', $factura.'@tickets');
 
 // Abono
 $abonos = 'App\Http\Controllers\HistorialAbonoController';
+Route::get('/abonos/cancelados', $abonos.'@vistaDedudasCanceladas');
 Route::get('/abonos', $abonos.'@vistaDedudas');
 Route::get('/abonos/{facturaId}', $abonos.'@verAbonos');
 Route::post('/abonos', $abonos.'@store');
 Route::get('/abonos/{facturaId}/descripcion', $abonos.'@descripcion');
-
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
