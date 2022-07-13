@@ -64,6 +64,9 @@ Route::get('/abonos/{facturaId}', $abonos.'@verAbonos');
 Route::post('/abonos', $abonos.'@store');
 Route::get('/abonos/{facturaId}/descripcion', $abonos.'@descripcion');
 
+$login = 'App\Http\Controllers\UserLoginController';
+Route::post('/login', $login.'@store');
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
