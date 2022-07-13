@@ -100,7 +100,7 @@ class HistorialAbonoController extends Controller
         $historialAbono->save();
 
         $facturas = Facturas::where("id", $request->facturaId)->first();
-        $facturas->suma_abono = $facturas->suma_abono + $request->montoAbonado;
+        $facturas->suma_abonado = $facturas->suma_abonado + $request->montoAbonado;
         $facturas->save();
 
 
