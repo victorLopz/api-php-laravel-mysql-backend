@@ -19,7 +19,7 @@ class IndexController extends Controller
         $timestamp = time();
         $hoy = getdate($timestamp);
 
-        $fecha = $hoy['year'] . "/" . $hoy['mon'] . "/" . $hoy['mday'];
+        $fechaHoy = $hoy['year'] . "-" . $hoy['mon'] . "-" . $hoy['mday'];
 
         $stockQuantity = Almacen_Uno::select("stock")->where('is_visible', 1)->count();
 
@@ -37,14 +37,15 @@ class IndexController extends Controller
             AND aluno.stock > 0"
         ));
 
-        $dineroCaja = Facturas::where([
+        print($fechaHoy);
+        $dineroCaja = Facturas::select(DB::raw("SUM(suma_abonos) as dinero_caja"))->where([
             ['is_visible', '=', 1],
-            ['created_at', '=', $fecha]
-        ])->sum('suma_abonos');
+            ['date_insert', '=', $fechaHoy ]
+        ])->first();
 
         $ventasDia = Facturas::where([
             ['is_visible', '=', 1],
-            ['created_at', '=', $fecha]
+            ['date_insert', '=', $fechaHoy ]
         ])->count('id');
 
         $tienda = Tipo_Almacenes::where([
@@ -78,7 +79,7 @@ class IndexController extends Controller
         return response()->json([
             "usuarios" => 2,
             "cantidadProductos" => $stockQuantity,
-            "dineroCaja" => $dineroCaja,
+            "dineroCaja" => $dineroCaja->dinero_caja,
             "ventasDia" => $ventasDia,
             "venta" => $datos[0]->venta,
             "compra" => $datos[0]->compra,

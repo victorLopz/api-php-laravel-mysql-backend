@@ -32,6 +32,12 @@ class FacturasController extends Controller
     {
         //
 
+        date_default_timezone_set("America/Costa_Rica"); // ("America/Santiago") por ejemplo
+        $timestamp = time();
+        $hoy = getdate($timestamp);
+
+        $fechaHoy = $hoy['year'] . "-" . $hoy['mon'] . "-" . $hoy['mday'];
+
         $facturas = new Facturas;
         $facturas->iva = $request->iva;
         $facturas->sub_total = $request->sub_total;
@@ -45,6 +51,7 @@ class FacturasController extends Controller
         $facturas->user_id = $request->user_id;
         $facturas->tipo_factura = $request->tipo_factura;
         $facturas->is_visible = true;
+        $facturas->date_insert = $fechaHoy;
         $facturas->save();
 
         if ($request->tipo_factura == 2) {

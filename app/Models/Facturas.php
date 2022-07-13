@@ -22,6 +22,7 @@ class Facturas extends Model
         "user_id",
         "tipo_factura",
         "is_visible",
-        "costo_total"
+        "costo_total",
+        "date_insert"
     ];
 }
