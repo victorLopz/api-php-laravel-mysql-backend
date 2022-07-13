@@ -71,7 +71,7 @@ Route::post('/login', $login.'@store');
 
 // Reports
 $report = 'App\Http\Controllers\reportController';
-Route::get('/reportes/{tipoFactura}', $report.'@report');
+Route::get('/reportes/{tipoFactura}/{inicio}/{final}', $report.'@report');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
