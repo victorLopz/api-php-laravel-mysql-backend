@@ -36,8 +36,7 @@ class IndexController extends Controller
             al.is_visible = 1
             AND aluno.stock > 0"
         ));
-
-        print($fechaHoy);
+        
         $dineroCaja = Facturas::select(DB::raw("SUM(suma_abonos) as dinero_caja"))->where([
             ['is_visible', '=', 1],
             ['date_insert', '=', $fechaHoy ]
