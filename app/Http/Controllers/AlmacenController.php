@@ -247,8 +247,8 @@ class AlmacenController extends Controller
             ])->sum(DB::raw("Almacen_Uno.stock * Almacen.precio_compra"));
 
         return response()->json([
-            "productos" => $productos,
-            "resultados" => $resultados
+            "resultados" => $resultados,
+            "productos" => $productos
         ]);
     }
 

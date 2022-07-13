@@ -65,6 +65,7 @@ Route::post('/abonos', $abonos.'@store');
 Route::get('/abonos/{facturaId}/descripcion', $abonos.'@descripcion');
 Route::get('/baucher-abono', $abonos.'@bacuherAbono');
 
+// Login
 $login = 'App\Http\Controllers\UserLoginController';
 Route::post('/login', $login.'@store');
 
