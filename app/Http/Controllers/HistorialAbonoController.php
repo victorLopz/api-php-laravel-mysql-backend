@@ -27,7 +27,7 @@ class HistorialAbonoController extends Controller
     {
         //
         return response()->json([
-            "deudas" => Vista_Deudas::get()
+            "deudas" => Vista_Deudas::orderBy("created_at", "DESC")->get()
         ]);
     }
 
