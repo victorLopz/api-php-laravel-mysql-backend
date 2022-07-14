@@ -234,7 +234,7 @@ class AlmacenController extends Controller
         )
             ->join("Almacen_Uno", "Almacen_Uno.almacen_id", "=", "Almacen.id")
             ->where([
-                ["Almacen.is_visible", "=", "1"],
+                ["Almacen.is_visible", "=", 1],
                 ["Almacen_Uno.stock", ">", 0]
             ])
             ->orderBy("Almacen.id", "ASC")
@@ -242,7 +242,7 @@ class AlmacenController extends Controller
 
         $resultados = Almacen::join("Almacen_Uno", "Almacen_Uno.almacen_id", "=", "Almacen.id")
             ->where([
-                ["Almacen.is_visible", "=", "1"],
+                ["Almacen.is_visible", "=", 1],
                 ["Almacen_Uno.stock", ">", 0]
             ])->sum(DB::raw("Almacen_Uno.stock * Almacen.precio_compra"));
 
