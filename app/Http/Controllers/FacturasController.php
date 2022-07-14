@@ -214,6 +214,9 @@ class FacturasController extends Controller
             $almacenUno->stock = $key->unidades + $almacenUno->stock;
             $almacenUno->save();
         }
+        return response()->json([
+            "success" => true
+        ]);
     }
 
     public function imprimirFactura($facturasId)
