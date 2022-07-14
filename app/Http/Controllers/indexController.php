@@ -21,7 +21,7 @@ class IndexController extends Controller
 
         $fechaHoy = $hoy['year'] . "-" . $hoy['mon'] . "-" . $hoy['mday'];
 
-        $stockQuantity = Almacen_Uno::select("stock")->where('is_visible', 1)->count();
+        $stockQuantity = Almacen_Uno::where('is_visible', 1)->sum("stock");
 
         $datos = DB::select(DB::raw(
             "SELECT
