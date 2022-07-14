@@ -53,6 +53,8 @@ Route::post('/factura', $factura.'@create');
 Route::post('/factura/detalle', $factura.'@guardarDetalleFactura');
 Route::get('/factura', $factura.'@historialFactura');
 Route::get('/factura/{facturaId}', $factura.'@verDetallesFacturas');
+Route::delete('/factura/{facturaId}', $factura.'@destroy');
+Route::get('/ticket/{facturaId}', $factura.'@imprimirFactura');
 
 Route::get('/baucher/factura', $factura.'@tickets');
 

@@ -104,7 +104,9 @@ class FacturasController extends Controller
         //
         $historial = Facturas::select("Facturas.id", "Usuarios.nombres", "Usuarios.ruc", "Facturas.created_at", "Facturas.total", "Facturas.monto_pagado", "Tipo_Facturas.nombres as tipo")
             ->join('Tipo_Facturas', 'Tipo_Facturas.id', '=', 'Facturas.tipo_factura')
-            ->join('Usuarios', 'Usuarios.id', '=', 'Facturas.user_id')->orderBy('Facturas.id', 'DESC')->get();
+            ->join('Usuarios', 'Usuarios.id', '=', 'Facturas.user_id')
+            ->where("Facturas.is_visible", "=", 1)
+            ->orderBy('Facturas.id', 'DESC')->get();
 
         return response()->json([
             "historial" => $historial
@@ -194,8 +196,57 @@ class FacturasController extends Controller
      * @param  \App\Models\Facturas  $facturas
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Facturas $facturas)
+    public function destroy(Facturas $facturas, $facturaId)
     {
         //
+        $facturas = Facturas::where("id", $facturaId)->first();
+        $facturas->is_visible = false;
+        $facturas->save();
+
+        $detalleFacturas = Detalles_Facturas::where("factura_id", $facturaId)->get();
+
+        foreach ($detalleFacturas as $key) {
+            # code...
+            $almacenUno = Almacen_Uno::where([
+                ["almacen_id", "=", $key->almacen_id]
+            ])->first();
+
+            $almacenUno->stock = $key->unidades + $almacenUno->stock;
+            $almacenUno->save();
+        }
+    }
+
+    public function imprimirFactura($facturasId)
+    {
+        //
+        $data = DB::select(DB::raw(
+            "
+                    SELECT fac.id, 
+                    fac.total, 
+                    fac.monto_pagado, 
+                    al.codigo1,
+                    fac.cambio, 
+                    det.unidades, 
+                    al.nombre_articulo, 
+                    det.costo_total,
+                    det.precio_compra,
+                    al.precio_venta,
+                    al.modelo,
+                    fac.created_at,
+                    fac.tipo_factura,
+                    cata.nombres as cliente,
+                    cata.ruc as codigoRUCcedula
+                FROM Facturas as fac 
+                INNER JOIN Detalles_Facturas as det ON det.factura_id = fac.id
+                INNER JOIN Almacen as al ON al.id = det.almacen_id
+                INNER JOIN Usuarios as cata ON cata.id = fac.user_id
+                WHERE fac.id = '$facturasId'
+                "
+        ));
+
+        return response()->json([
+            "success" => true,
+            "data" => $data
+        ]);
     }
 }
