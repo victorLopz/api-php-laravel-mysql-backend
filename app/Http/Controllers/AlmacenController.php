@@ -170,7 +170,6 @@ class AlmacenController extends Controller
         $producto->save();
 
         $almacenUno = Almacen_Uno::where('almacen_id', $request->id)->update(['Stock' => $request->stock]);
-        var_dump($almacenUno);
 
         // $almacenUno = Almacen_Uno::where('almacen_id', '=', $request->id)->first();
         // var_dump($request->stock);
