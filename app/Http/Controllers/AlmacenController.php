@@ -169,9 +169,13 @@ class AlmacenController extends Controller
         $producto->notas = $request->notas;
         $producto->save();
 
-        $almacenUno = Almacen_Uno::where('almacen_id', '=', $request->id)->first();
-        $almacenUno->stock = $request->stock;
-        $almacenUno->save();
+        $almacenUno = Almacen_Uno::where('almacen_id', $request->id)->update(['Stock' => $request->stock]);
+        var_dump($almacenUno);
+
+        // $almacenUno = Almacen_Uno::where('almacen_id', '=', $request->id)->first();
+        // var_dump($request->stock);
+        // $almacenUno->stock = $request->stock;
+        // $almacenUno->save();
 
         $producto = Almacen::select(
             "Almacen.id",
@@ -185,7 +189,7 @@ class AlmacenController extends Controller
             "Almacen.precio_ruta_uno",
             "Almacen.precio_ruta_dos",
             "Almacen.notas",
-            "Almacen_Uno.Stock"
+            "Almacen_Uno.stock"
         )->where('Almacen.id', '=', $request->id)
             ->leftJoin('Almacen_Uno', 'Almacen_Uno.almacen_id', '=', 'Almacen.id')
             ->first();
