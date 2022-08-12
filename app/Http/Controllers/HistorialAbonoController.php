@@ -35,7 +35,7 @@ class HistorialAbonoController extends Controller
     {
         //
         return response()->json([
-            "creditos" => Creditos_Cancelados::get()
+            "creditos" => Creditos_Cancelados::orderBy("created_at", "DESC")->get()
         ]);
     }
 

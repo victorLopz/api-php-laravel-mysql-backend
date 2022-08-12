@@ -83,10 +83,12 @@ class FacturasController extends Controller
         $detalleFactura->factura_id = $request->factura_id;
         $detalleFactura->unidades = $request->unidades;
         $detalleFactura->almacen_id = $request->almacen_id;
-        $producto = Almacen::where("id", $request->almacen_id)->first();
-        $detalleFactura->precio_compra = $producto->precio_compra;
-        $detalleFactura->precio_venta = $producto->precio_venta;
-        $multi = intval($request->unidades) * intval($producto->precio_venta);
+        
+        $detalleFactura->precio_compra = $request->precio_compra;
+        $detalleFactura->precio_venta = $request->precio_unidad_venta;
+        
+        $multi = intval($request->unidades) * intval($request->precio_unidad_venta);
+        
         $detalleFactura->costo_total = $multi;
         $detalleFactura->save();
 
@@ -147,7 +149,7 @@ class FacturasController extends Controller
             al.nombre_articulo, 
             det.costo_total,
             det.precio_compra,
-            al.precio_venta,
+            det.precio_venta,
             al.modelo,
             fac.created_at,
             fac.tipo_factura,
@@ -233,7 +235,7 @@ class FacturasController extends Controller
                     al.nombre_articulo, 
                     det.costo_total,
                     det.precio_compra,
-                    al.precio_venta,
+                    det.precio_venta,
                     al.modelo,
                     fac.created_at,
                     fac.tipo_factura,

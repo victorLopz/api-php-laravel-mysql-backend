@@ -21,7 +21,7 @@ Route::get('/almacen', $routeAlmacen.'@index');
 Route::get('/almacen/inversion', $routeAlmacen.'@getInversion');
 Route::post('/almacen', $routeAlmacen.'@store');
 Route::put('/almacen', $routeAlmacen.'@edit' );
-Route::put('/almacen/{id}', $routeAlmacen.'@update');
+Route::patch('/almacen/{id}', $routeAlmacen.'@update');
 Route::get('/almacen/{id}', $routeAlmacen.'@show' );
 
 // Usuarios

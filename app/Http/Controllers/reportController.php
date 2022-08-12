@@ -90,7 +90,7 @@ class ReportController extends Controller
 
             $resultados = Detalles_Facturas::select(
                 DB::raw("SUM(Detalles_Facturas.unidades) AS cantidades"),
-                DB::raw("SUM(Detalles_Facturas.unidades * Almacen.precio_venta) AS totales"),
+                DB::raw("SUM(Detalles_Facturas.unidades * Almacen.precio_compra) AS totales"),
                 DB::raw("SUM((Detalles_Facturas.unidades * Almacen.precio_venta) - (Detalles_Facturas.unidades * Almacen.precio_compra)) AS suma_venta")
             )->join("Almacen", "Almacen.id", "=", "Detalles_Facturas.almacen_id")
                 ->join("Facturas", "Facturas.id", "=", "Detalles_Facturas.factura_id")
