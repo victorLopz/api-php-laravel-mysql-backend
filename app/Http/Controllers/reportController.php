@@ -32,7 +32,8 @@ class ReportController extends Controller
                 "Almacen.nombre_articulo",
                 "Almacen.precio_compra",
                 "Almacen.precio_venta",
-                DB::raw("(Detalles_Facturas.unidades * Almacen.precio_venta) AS total"),
+                DB::raw("(Detalles_Facturas.unidades * Almacen.precio_venta) AS total_precio_venta"),
+                DB::raw("(Detalles_Facturas.unidades * Almacen.precio_compra) AS total_precio_compra"),
                 DB::raw(
                     "(Detalles_Facturas.unidades * Almacen.precio_venta) - (Detalles_Facturas.unidades * Almacen.precio_compra)
                     AS ganancias
@@ -73,7 +74,8 @@ class ReportController extends Controller
                 "Almacen.nombre_articulo",
                 "Almacen.precio_compra",
                 "Almacen.precio_venta",
-                DB::raw("(Detalles_Facturas.unidades * Almacen.precio_venta) AS total"),
+                DB::raw("(Detalles_Facturas.unidades * Almacen.precio_venta) AS total_precio_venta"),
+                DB::raw("(Detalles_Facturas.unidades * Almacen.precio_compra) AS total_precio_compra"),
                 DB::raw(
                     "(Detalles_Facturas.unidades * Almacen.precio_venta) - (Detalles_Facturas.unidades * Almacen.precio_compra)
                     AS ganancias
