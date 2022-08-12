@@ -104,7 +104,15 @@ class FacturasController extends Controller
     public function historialFactura(Request $request)
     {
         //
-        $historial = Facturas::select("Facturas.id", "Usuarios.nombres", "Usuarios.ruc", "Facturas.created_at", "Facturas.total", "Facturas.monto_pagado", "Tipo_Facturas.nombres as tipo")
+        $historial = Facturas::select(
+            "Facturas.id",
+            "Usuarios.nombres",
+            "Usuarios.ruc",
+            DB::raw('DATE_FORMAT(Facturas.created_at, "%d/%m/%Y") as created_at'),
+            "Facturas.total",
+            "Facturas.monto_pagado",
+            "Tipo_Facturas.nombres as tipo"
+        )
             ->join('Tipo_Facturas', 'Tipo_Facturas.id', '=', 'Facturas.tipo_factura')
             ->join('Usuarios', 'Usuarios.id', '=', 'Facturas.user_id')
             ->where("Facturas.is_visible", "=", 1)
