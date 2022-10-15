@@ -108,7 +108,7 @@ class FacturasController extends Controller
             "Facturas.id",
             "Usuarios.nombres",
             "Usuarios.ruc",
-            DB::raw('DATE_FORMAT(Facturas.created_at, "%d/%m/%Y") as created_at'),
+            "Facturas.created_at",
             "Facturas.total",
             "Facturas.monto_pagado",
             "Tipo_Facturas.nombres as tipo"
